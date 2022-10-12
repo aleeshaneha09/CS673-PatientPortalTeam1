@@ -8,4 +8,4 @@ Patient Communication Portal
 5. Akshay V G - Microservices Developer
 
 ## GIT Repository Link
-[HealthcommunicationPortal](https://github.com/ManjushreeRao/CS673-HealthcommunicationPortal)
+https://github.com/aleeshaneha09/CS673-PatientPortalTeam1 [Patient Communication Portal
