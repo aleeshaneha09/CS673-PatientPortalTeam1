@@ -1,6 +1,6 @@
 # CS673-PatientPortalTeam1
 
-#### Patient Communication Portal
+### Patient Communication Portal
 
 Patients love your free portal- it lets them conveniently and securely communicate with you and access their records anytime and anywhere. Our patient portal is fully integrated with EHR saving your staff’s phone time and minimizes distractions as lab results sharing, prescription refill requests, and appointment requests can be handled from within the EHR.
 
