@@ -1,0 +1,228 @@
+[
+  {
+    "id": "1",
+    "first_name": "Jack",
+    "last_name": "Dawson",
+    "email": "something@email",
+    "contact_number": "8260226309",
+    "prescriptions": {
+      "ongoing": [
+        {
+          "medicine_id": 432,
+          "medicine_name": "Crocin",
+          "medicine_description": "Crocin is usually used as a painkiller during fevers and headaches or general body aches"
+        },
+        {
+          "medicine_id": 673,
+          "medicine_name": "Alex Syrup",
+          "medicine_description": "Alex Syrup is prescribed when the patient hass cold and there is a lot of coughing with mucus in the throat"
+        },
+        {
+          "medicine_id": 482,
+          "medicine_name": "Sinarest",
+          "medicine_description": "Prescribed for light fever"
+        }
+      ]
+    },
+    "medical_history": "Link to medical history or string of data",
+    "description": {
+      "age": 19,
+      "height": 177,
+      "first_visit": true,
+      "profile_picture": "link",
+      "family_history": "string"
+    },
+    "tests": []
+  },
+  {
+    "id": "2",
+    "first_name": "Meghan",
+    "last_name": "Parker",
+    "email": "something@email",
+    "contact_number": "8260226309",
+    "prescriptions": {
+      "ongoing": [
+        {
+          "medicine_id": 546,
+          "medicine_name": "Ezythromycin",
+          "medicine_description": "Prescribed for tonsils, severe throat infection and fever"
+        },
+        {
+          "medicine_id": 825,
+          "medicine_name": "Benedryl",
+          "medicine_description": "Helps get rid of heavy cold and cough"
+        }
+      ]
+    },
+    "medical_history": "Link to medical history or string of data",
+    "description": {
+      "age": 22,
+      "height": 160,
+      "first_visit": false,
+      "profile_picture": "link",
+      "family_history": "string"
+    },
+    "tests": []
+  },
+  {
+    "id": "3",
+    "first_name": "Happy",
+    "last_name": "Hogan",
+    "email": "something@email",
+    "contact_number": "8260226309",
+    "prescriptions": {
+      "ongoing": [
+        { "medicine_id": 546, "medicine_name": "Ezythromycin" },
+        { "medicine_id": 825, "medicine_name": "Benedryl" }
+      ]
+    },
+    "medical_history": "Link to medical history or string of data",
+    "description": {
+      "age": 30,
+      "height": 165,
+      "first_visit": false,
+      "profile_picture": "link",
+      "family_history": "string"
+    },
+    "tests": []
+  },
+  {
+    "id": "4",
+    "first_name": "Jennifer",
+    "last_name": "Winget",
+    "email": "something@email",
+    "contact_number": "8260226309",
+    "prescriptions": {
+      "ongoing": [{ "medicine_id": 746, "medicine_name": "Cheston Cold" }]
+    },
+    "medical_history": "Link to medical history or string of data",
+    "description": {
+      "age": 30,
+      "height": 165,
+      "first_visit": false,
+      "profile_picture": "link",
+      "family_history": "string"
+    },
+    "tests": []
+  },
+  {
+    "id": "5",
+    "first_name": "Michael",
+    "last_name": "Mason",
+    "email": "something@email",
+    "contact_number": "8260226309",
+    "prescriptions": {
+      "ongoing": [{ "medicine_id": 746, "medicine_name": "Cheston Cold" }]
+    },
+    "medical_history": "Link to medical history or string of data",
+    "description": {
+      "age": 30,
+      "height": 165,
+      "first_visit": false,
+      "profile_picture": "link",
+      "family_history": "string"
+    },
+    "tests": []
+  },
+  {
+    "id": "6",
+    "first_name": "Jay",
+    "last_name": "Ellis",
+    "email": "something@email",
+    "contact_number": "8260226309",
+    "prescriptions": {
+      "ongoing": [{ "medicine_id": 746, "medicine_name": "Cheston Cold" }]
+    },
+    "medical_history": "Link to medical history or string of data",
+    "description": {
+      "age": 30,
+      "height": 165,
+      "first_visit": false,
+      "profile_picture": "link",
+      "family_history": "string"
+    },
+    "tests": []
+  },
+  {
+    "id": "7",
+    "first_name": "Raj",
+    "last_name": "Koothrapali",
+    "email": "something@email",
+    "contact_number": "8260226309",
+    "prescriptions": {
+      "ongoing": [{ "medicine_id": 746, "medicine_name": "Cheston Cold" }]
+    },
+    "medical_history": "Link to medical history or string of data",
+    "description": {
+      "age": 30,
+      "height": 165,
+      "first_visit": false,
+      "profile_picture": "link",
+      "family_history": "string"
+    },
+    "tests": []
+  },
+  {
+    "id": "8",
+    "first_name": "Sheldon",
+    "last_name": "Cooper",
+    "email": "something@email",
+    "contact_number": "8260226309",
+    "prescriptions": {
+      "ongoing": [{ "medicine_id": 746, "medicine_name": "Cheston Cold" }]
+    },
+    "medical_history": "Link to medical history or string of data",
+    "description": {
+      "age": 30,
+      "height": 165,
+      "first_visit": false,
+      "profile_picture": "link",
+      "family_history": "string"
+    },
+    "tests": []
+  },
+  {
+    "id": "9",
+    "first_name": "Bruce",
+    "last_name": "Banner",
+    "email": "something@email",
+    "contact_number": "8260226309",
+    "prescriptions": {
+      "ongoing": [{ "medicine_id": 746, "medicine_name": "Cheston Cold" }]
+    },
+    "medical_history": "Link to medical history or string of data",
+    "description": {
+      "age": 30,
+      "height": 165,
+      "first_visit": false,
+      "profile_picture": "link",
+      "family_history": "string"
+    },
+    "tests": []
+  },
+  {
+    "id": "10",
+    "first_name": "Clark",
+    "last_name": "Kent",
+    "email": "something@email",
+    "contact_number": "8260226309",
+    "prescriptions": {
+      "ongoing": [{ "medicine_id": 746, "medicine_name": "Cheston Cold" }]
+    },
+    "medical_history": "Link to medical history or string of data",
+    "description": {
+      "age": 30,
+      "height": 165,
+      "first_visit": false,
+      "profile_picture": "link",
+      "family_history": "string"
+    },
+    "tests": []
+  },
+  {
+    "name": "new",
+    "description": "new",
+    "price": "new",
+    "id": "2f0d0670c489a35a7d8974bfe1a1df22"
+  }
+]
