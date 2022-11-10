@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const PORT = 8080;
+const PORT = 3000;
 
 //for random id generator
 const crypto = require("crypto");
@@ -27,6 +27,11 @@ app.get("/", (req, res) => {
   res.send(
     "This is the HomePage. Add '/doctors' in the URl to get a list of patients"
   );
+});
+
+//get request to fetch patient details
+app.get("/patient", (req, res) => {
+  console.log(res);
 });
 
 //to get a list of all patients
@@ -91,12 +96,10 @@ app.get("/doctor/:id/availability", (req, res) => {
   console.log(doctor);
   console.log(availability);
   if (availability === "undefined") {
-    res
-      .status(404)
-      .json({
-        message:
-          "The schedule for the requested doctor is not available right now",
-      });
+    res.status(404).json({
+      message:
+        "The schedule for the requested doctor is not available right now",
+    });
   }
   res.json({ availability });
 });
