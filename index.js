@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const PORT = 3000;
+let PORT = process.env.PORT || 3000;
 
 //for random id generator
 const crypto = require("crypto");
@@ -19,8 +19,10 @@ const { request } = require("http");
 // const patients = JSON.parse(db);
 
 //fetches the doctor api data
-const doctorDB = fs.readFileSync(__dirname + "/" + "doctor-api.json");
-const doctors = JSON.parse(doctorDB);
+// const ddd = require('./doctor-api.json')
+// const doctorDB = fs.readFileSync(__dirname + "/" + "doctor-api.json");
+// const doctors = JSON.parse(doctorDB);
+const doctors = require('./doctor-api.json')
 
 //get request to fetch list of doctors
 app.get("/", (req, res) => {
