@@ -1,129 +1,100 @@
 const express = require("express");
 const app = express();
-const cors = require("cors");
-app.use(cors());
+const cors = require("cors")
+app.use(cors())
 
-const bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 
-let PORT = process.env.PORT || 3000;
+var bodyParser = require("body-parser");
+app.use(bodyParser.json())
 
-//for random id generator
-const crypto = require("crypto");
+require('dotenv').config();
 
-//fetches the data from JSON file in the directory
-const fs = require("fs");
-const { request } = require("http");
-// const db = fs.readFileSync(__dirname + "/" + "patient-api.json");
-// const patients = JSON.parse(db);
+const uuid = require("uuid")
 
-//fetches the doctor api data
-// const ddd = require('./doctor-api.json')
-// const doctorDB = fs.readFileSync(__dirname + "/" + "doctor-api.json");
-// const doctors = JSON.parse(doctorDB);
-const doctors = require('./doctor-api.json')
+//connecting to database on planetscale
+require('dotenv').config()
+const mysql = require('mysql2')
+const connection = mysql.createConnection(process.env.DATABASE_URL)
+console.log('Connected to PlanetScale!')
 
-//get request to fetch list of doctors
-app.get("/", (req, res) => {
-  res.send(
-    "This is the HomePage. Add '/doctors' in the URl to get a list of patients"
-  );
-});
+//console.log(process.env.DATABASE_URL)
 
-//get request to fetch patient details
-app.get("/patient", (req, res) => {
-  console.log(res);
-});
-
-//to get a list of all patients
-app.get("/doctors", async (req, res) => {
-  console.log(typeof doctors);
-  res.json({ data: doctors });
-});
-
-//to add a patient to the list of doctors
-app.put("/doctors", async (req, res) => {
-  console.log("receiving");
-  console.log(req.body);
-  var id = crypto.randomBytes(16).toString("hex");
-  const newDoctor = { ...req.body, id };
-  doctors.push(newDoctor);
-  const newDoctosList = JSON.stringify(doctors);
-
-  fs.writeFile(__dirname + "/" + "doctor-api.json", newDoctosList, (err) => {
-    if (err) throw err;
-    console.log("New data added");
-  });
-
-  // const id = crypto.randomBytes(16).toString("hex");
-  // console.log(typeof id);
-
-  res.json({ body: doctors });
-});
-
-//to fetch details of a single doctor by id
-app.get("/doctor/:id", (req, res) => {
-  const doctor = doctors.find((obj) => obj.id === req.params.id);
-  console.log(doctor);
-  res.json({ data: doctor });
-});
-
-//to add new fields or update fields in a doctor by id
-app.post("/doctor/:id", (req, res) => {
-  console.log(typeof req.body);
-  const newDoctors = doctors.map((doctor) => {
-    return doctor.id === req.params.id ? { ...doctor, ...req.body } : doctor;
-  });
-
-  fs.writeFile(
-    __dirname + "/" + "doctor-api.json",
-    JSON.stringify(newDoctors),
-    (err) => {
-      if (err) throw err;
-      console.log("Doctor object has been updated");
+//checking if database is connected
+connection.connect((err) => {
+    if (err) {
+        console.log(err)
+    } else {
+        console.log("Connected!!!")
     }
-  );
+})
 
-  res.json({
-    data: newDoctors,
-    message: `Doctor with id ${req.params.id} has been updated`,
-  });
+//get details of all doctors
+app.get("/doctors", (request, response) => {
+    connection.query("select * from Doctor", function (err, result, fields) {
+        if (err) {
+            response.json({ message: "Cannot get List of doctors" })
+        }
+        else {
+            response.json({ data: result })
+            console.log(JSON.stringify(result))
+        }
+    })
+})
+
+
+//get details doctor by id
+app.get("/doctors/:id", (request, response) => {
+    const id = request.params.id
+    console.log(id)
+    connection.query(`select * from Doctor where Id = ?`, [id], (error, result) => {
+        if (error) {
+            throw error
+            response.json({ message: "error in creating new Doctor" })
+        }
+        console.log(result)
+        response.json({ data: result })
+    })
 });
 
-//to get a doctor's availability by its id
-app.get("/doctor/:id/availability", (req, res) => {
-  const doctor = doctors.find((obj) => obj.id === req.params.id);
-  const availability = doctor.availability;
-  console.log(doctor);
-  console.log(availability);
-  if (availability === "undefined") {
-    res.status(404).json({
-      message:
-        "The schedule for the requested doctor is not available right now",
-    });
-  }
-  res.json({ availability });
-});
 
-//to delete a doctor by its id
-app.delete("/doctor/:id", (req, res) => {
-  const newDoctors = doctors.filter((doctor) => doctor.id !== req.params.id);
-  console.log(newDoctors);
+//add new doctor with all details
+app.post("/doctors", (request, response) => {
+    const Id = uuid.v4()
+    const doctorDb = { Id, ...request.body }
 
-  fs.writeFile(
-    __dirname + "/" + "doctor-api.json",
-    JSON.stringify(newDoctors),
-    (err) => {
-      if (err) throw err;
-      console.log("Doctor object has been deleted");
+    const { First_name, Last_name, Email, Contact_Number, Qualification, Specialization, Profile_Picture } = { ...request.body }
+    console.log(request.body)
+
+    connection.query('insert into Doctor values(?,?,?,?,?,?,?,?)', [Id, First_name, Last_name, Email, Contact_Number, Qualification, Specialization, Profile_Picture],
+        (err, res) => {
+            if (err) {
+                throw err
+                response.json({ message: "error in creating new Doctor" })
+            }
+            console.log(res)
+            response.json({ data: doctorDb, message: "New doctor has been created" })
+
+        })
+})
+
+
+
+//delete doctor by id
+app.delete("/doctors/:id", (request, response) => {
+    const Id = request.params.id
+
+    connection.query('delete from Doctor where Id = ?', [Id], (error, result) => {
+        if (error) throw error
+        console.log(result)
+        response.json({ data: `Doctor with Id ${Id} has been deleted` })
+    })
+
+})
+
+app.listen(3000, (err) => {
+    if (err) {
+        console.log(err)
+    } else {
+        console.log("listening on port 3000")
     }
-  );
-
-  res.json({
-    newDoctors,
-    message: `The doctor with ID - ${req.params.id} has been deleted`,
-  });
-});
-
-app.listen(PORT, () => console.log(`Listening on PORT ${PORT}`));
+})
