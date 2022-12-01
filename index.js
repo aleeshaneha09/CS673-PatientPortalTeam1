@@ -31,7 +31,7 @@ connection.connect((err) => {
 
 //default route
 app.get("/", (request, response) => {
-    res.send("/doctors for list of Doctors")
+    response.send("/doctors for list of Doctors")
 })
 
 
