@@ -3,8 +3,9 @@ const app = express();
 const cors = require("cors")
 app.use(cors())
 
+const PORT = process.env.PORT || 3000
 
-var bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
 app.use(bodyParser.json())
 
 require('dotenv').config();
@@ -91,7 +92,7 @@ app.delete("/doctors/:id", (request, response) => {
 
 })
 
-app.listen(3000, (err) => {
+app.listen(PORT, (err) => {
     if (err) {
         console.log(err)
     } else {
