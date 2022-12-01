@@ -29,6 +29,12 @@ connection.connect((err) => {
     }
 })
 
+//default route
+app.get("/", (request, response) => {
+    res.send("/doctors for list of Doctors")
+})
+
+
 //get details of all doctors
 app.get("/doctors", (request, response) => {
     connection.query("select * from Doctor", function (err, result, fields) {
