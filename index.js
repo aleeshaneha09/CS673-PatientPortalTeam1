@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors")
 app.use(cors())
+app.use(express.json())
 
 const PORT = process.env.PORT || 3000
 
@@ -73,15 +74,39 @@ app.post("/doctors", (request, response) => {
     console.log(request.body)
 
     connection.query('insert into Doctor values(?,?,?,?,?,?,?,?)', [Id, First_name, Last_name, Email, Contact_Number, Qualification, Specialization, Profile_Picture],
-        (err, res) => {
-            if (err) {
-                throw err
+        (error, result) => {
+            if (error) {
+                throw error
                 response.json({ message: "error in creating new Doctor" })
             }
-            console.log(res)
+            console.log(result)
             response.json({ data: doctorDb, message: "New doctor has been created" })
 
         })
+})
+
+
+//update info of existing doctor by id
+app.put("/doctors/:id", async (request,response)=>{
+    const id = request.params.id
+    connection.query('select * from Doctor where Id = ?', [id], (error, result) => {
+        if (error) {
+            throw error
+            response.json({message: "There was an error in fetching data from database"})
+        }
+        let doctorData = {...result[0], ...request.body}
+        console.log(doctorData)
+        const { First_name, Last_name, Email, Contact_Number, Qualification, Specialization, Profile_Picture } = { ...doctorData }
+
+        connection.query(`update Doctor set First_name = ?, Last_name = ?, Email = ?, Contact_Number = ?, Qualification = ?, Specialization = ?, Profile_Picture = ? where Id=?`,
+        [First_name, Last_name, Email, Contact_Number, Qualification, Specialization, Profile_Picture, id], (error2, result2) => {
+            if (error2){
+                throw error2
+                response.json({message: "there was an error in updating the data"})
+            }
+            response.json({data: doctorData, message: "Details have been updated"})
+        })      
+    })
 })
 
 
