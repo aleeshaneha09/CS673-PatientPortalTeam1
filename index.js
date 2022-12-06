@@ -74,17 +74,17 @@ app.post("/doctors", (request, response) => {
     console.log(request.body)
     console.log(doctorDb)
 
-    // connection.query('insert into Doctor values(?,?,?,?,?,?,?,?,?,?,?)', [id, createdAt, modifiedAt,null,email, firstName, lastName, contactNumber, profession, qualification,cases, profilePicture],
-    //     (error, result) => {
-    //         if (error) {
-    //             throw error
-    //             response.json({ message: "error in creating new Doctor" })
-    //         }
-    //         console.log(result)
-    //         response.json({ data: doctorDb, message: "New doctor has been created" })
+    connection.query('insert into Doctor values(?,?,?,?,?,?,?,?,?,?,?)', [id, createdAt, modifiedAt,null,email, firstName, lastName, contactNumber, profession, qualification,cases, profilePicture],
+        (error, result) => {
+            if (error) {
+                throw error
+                response.json({ message: "error in creating new Doctor" })
+            }
+            console.log(result)
+            response.json({ data: doctorDb, message: "New doctor has been created" })
 
-    //     })
-   response.json({message: "received"})
+        })
+   //response.json({message: "received"})
 })
 
 

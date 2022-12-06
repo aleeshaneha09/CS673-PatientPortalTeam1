@@ -57,3 +57,19 @@ We will be working towards having a portal that is connected to the database whi
 
 We have created a list of backlogs in form of individual user stories using the personas mentioned above.
 [Click here to check the backlogs on Pivotal Tracker](https://www.pivotaltracker.com/projects/2605558)
+
+# API notes to utilize Doctor data
+
+## GET
+
+Add </doctors> to the default url to get list of all doctors
+
+## PUT
+
+Add </doctors> to the default url when using PUT request to ADD a new entry to list of all doctors
+
+**Warning** No value should be empty
+To insert new entries, mention the following values in any order:
+**_firstName_** (string), **_lastName_** (string), **_email_** (string), **_contactNumber_** (int), **_qualification_** (string), **_profession_** (string), **_cases_** (string), **_profilePicture_** (string/url), **_createdAt_** (datetime), **_modifiedAt_**(datetime)
+
+**Note** Provide the value as <null> if there is no value for any field.
