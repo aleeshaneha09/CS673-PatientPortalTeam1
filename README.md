@@ -63,14 +63,22 @@ We have created a list of backlogs in form of individual user stories using the 
 ## GET
 
 Add </doctors> to the default url to get list of all doctors
+Add </doctors/:id> to the the default url to get details of single doctor where id is the id of the doctor to be fetched 
 
-## PUT
+## POST
 
-Add </doctors> to the default url when using PUT request to ADD a new entry to list of all doctors
+Add </doctors> to the default url when using POST request to ADD a new entry to list of all doctors
 
 >**Warning** No value should be empty
 
-To insert new entries, mention the following values in any order:
-**_firstName_** (string), **_lastName_** (string), **_email_** (string), **_contactNumber_** (int), **_qualification_** (string), **_profession_** (string), **_cases_** (string), **_profilePicture_** (string/url), **_createdAt_** (datetime), **_modifiedAt_**(datetime)
+To insert new entries, mention the following values in any order in JSON format:
+**_firstName_** (string), **_lastName_** (string), **_email_** (string), **_contactNumber_** (int), **_qualification_** (string), **_profession_** (string), **_cases_** (string), **_profilePicture_** (string/url)
 
 >**Note** Provide the value as <null> if there is no value for any field.
+
+## PUT
+
+Add </doctors/:id> where id would be the id of the doctor to be modified in PUT request. Provide any or all the values to be modified in JSON format
+
+## DELETE
+Add </doctors/:id> in the url with req:DELETE to delete the entry from database

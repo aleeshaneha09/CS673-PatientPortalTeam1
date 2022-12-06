@@ -53,7 +53,7 @@ app.get("/doctors", (request, response) => {
 //get details doctor by id
 app.get("/doctors/:id", (request, response) => {
     const id = request.params.id
-    console.log(id)
+    //console.log(id)
     connection.query(`select * from Doctor where Id = ?`, [id], (error, result) => {
         if (error) {
             throw error
@@ -68,19 +68,22 @@ app.get("/doctors/:id", (request, response) => {
 //add new doctor with all details
 app.post("/doctors", (request, response) => {
     const id = uuid.v4()
-    const doctorDb = { id, ...request.body }
+    const createdAt = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    const modifiedAt = createdAt
+    const doctorDb = { id, createdAt, modifiedAt, ...request.body }
+    
 
-    const { firstName, lastName, email, contactNumber, qualification, profession, profilePicture, cases, createdAt, modifiedAt } = { ...request.body }
-    console.log(request.body)
-    console.log(doctorDb)
+    const { firstName, lastName, email, contactNumber, qualification, profession, profilePicture, cases } = { ...request.body }
+    // console.log(request.body)
+    // console.log(doctorDb)
 
-    connection.query('insert into Doctor values(?,?,?,?,?,?,?,?,?,?,?)', [id, createdAt, modifiedAt,null,email, firstName, lastName, contactNumber, profession, qualification,cases, profilePicture],
+    connection.query('insert into Doctor values(?,?,?,?,?,?,?,?,?,?,?)', [id, createdAt, modifiedAt,email, firstName, lastName, contactNumber, profession, qualification,cases, profilePicture],
         (error, result) => {
             if (error) {
                 throw error
                 response.json({ message: "error in creating new Doctor" })
             }
-            console.log(result)
+            //console.log(result)
             response.json({ data: doctorDb, message: "New doctor has been created" })
 
         })
@@ -91,6 +94,9 @@ app.post("/doctors", (request, response) => {
 //update info of existing doctor by id
 app.put("/doctors/:id", async (request,response)=>{
     const id = request.params.id
+
+    const modifiedAt = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
     connection.query('select * from Doctor where Id = ?', [id], (error, result) => {
         if (error) {
             throw error
@@ -98,7 +104,7 @@ app.put("/doctors/:id", async (request,response)=>{
         }
         let doctorData = {...result[0], ...request.body}
         console.log(doctorData)
-        const { firstName, lastName, email, contactNumber, qualification, profession, profilePicture, cases, createdAt, modifiedAt } = { ...doctorData }
+        const { firstName, lastName, email, contactNumber, qualification, profession, profilePicture, cases, createdAt } = { ...doctorData }
 
         connection.query(`update Doctor set firstName = ?, lastName = ?, email = ?, contactNumber = ?, qualification = ?, profession = ?, profilePicture = ?, cases=?, createdAt=?, modifiedAt=? where Id=?`,
         [firstName, lastName, email, contactNumber, qualification, profession, profilePicture, cases, createdAt, modifiedAt, id], (error2, result2) => {
