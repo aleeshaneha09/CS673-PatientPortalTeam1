@@ -67,22 +67,24 @@ app.get("/doctors/:id", (request, response) => {
 
 //add new doctor with all details
 app.post("/doctors", (request, response) => {
-    const Id = uuid.v4()
-    const doctorDb = { Id, ...request.body }
+    const id = uuid.v4()
+    const doctorDb = { id, ...request.body }
 
-    const { First_name, Last_name, Email, Contact_Number, Qualification, Specialization, Profile_Picture } = { ...request.body }
+    const { firstName, lastName, email, contactNumber, qualification, profession, profilePicture, cases, createdAt, modifiedAt } = { ...request.body }
     console.log(request.body)
+    console.log(doctorDb)
 
-    connection.query('insert into Doctor values(?,?,?,?,?,?,?,?)', [Id, First_name, Last_name, Email, Contact_Number, Qualification, Specialization, Profile_Picture],
-        (error, result) => {
-            if (error) {
-                throw error
-                response.json({ message: "error in creating new Doctor" })
-            }
-            console.log(result)
-            response.json({ data: doctorDb, message: "New doctor has been created" })
+    // connection.query('insert into Doctor values(?,?,?,?,?,?,?,?,?,?,?)', [id, createdAt, modifiedAt,null,email, firstName, lastName, contactNumber, profession, qualification,cases, profilePicture],
+    //     (error, result) => {
+    //         if (error) {
+    //             throw error
+    //             response.json({ message: "error in creating new Doctor" })
+    //         }
+    //         console.log(result)
+    //         response.json({ data: doctorDb, message: "New doctor has been created" })
 
-        })
+    //     })
+   response.json({message: "received"})
 })
 
 
@@ -96,10 +98,10 @@ app.put("/doctors/:id", async (request,response)=>{
         }
         let doctorData = {...result[0], ...request.body}
         console.log(doctorData)
-        const { First_name, Last_name, Email, Contact_Number, Qualification, Specialization, Profile_Picture } = { ...doctorData }
+        const { firstName, lastName, email, contactNumber, qualification, profession, profilePicture, cases, createdAt, modifiedAt } = { ...doctorData }
 
-        connection.query(`update Doctor set First_name = ?, Last_name = ?, Email = ?, Contact_Number = ?, Qualification = ?, Specialization = ?, Profile_Picture = ? where Id=?`,
-        [First_name, Last_name, Email, Contact_Number, Qualification, Specialization, Profile_Picture, id], (error2, result2) => {
+        connection.query(`update Doctor set firstName = ?, lastName = ?, email = ?, contactNumber = ?, qualification = ?, profession = ?, profilePicture = ?, cases=?, createdAt=?, modifiedAt=? where Id=?`,
+        [firstName, lastName, email, contactNumber, qualification, profession, profilePicture, cases, createdAt, modifiedAt, id], (error2, result2) => {
             if (error2){
                 throw error2
                 response.json({message: "there was an error in updating the data"})
