@@ -11,7 +11,7 @@ app.use(bodyParser.json())
 
 require('dotenv').config();
 
-const uuid = require("uuid")
+// const uuid = require("uuid")
 
 //connecting to database on planetscale
 require('dotenv').config()
@@ -67,7 +67,8 @@ app.get("/doctors/:id", (request, response) => {
 
 //add new doctor with all details
 app.post("/doctors", (request, response) => {
-    const id = uuid.v4()
+    //const id = uuid.v4()
+    const id = Math.floor(Math.random() * 999999)
     const createdAt = new Date().toISOString().slice(0, 19).replace('T', ' ');
     const modifiedAt = createdAt
     const doctorDb = { id, createdAt, modifiedAt, ...request.body }
