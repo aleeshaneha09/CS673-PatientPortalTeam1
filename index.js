@@ -38,9 +38,10 @@ app.get("/", (request, response) => {
 
 //get details of all doctors
 app.get("/doctors", (request, response) => {
-    connection.query("select * from Doctor", function (err, result, fields) {
-        if (err) {
+    connection.query("select * from Doctor", function (error, result, fields) {
+        if (error) {
             response.json({ message: "Cannot get List of doctors" })
+            throw error
         }
         else {
             response.json({ data: result })
@@ -56,8 +57,8 @@ app.get("/doctors/:id", (request, response) => {
     //console.log(id)
     connection.query(`select * from Doctor where Id = ?`, [id], (error, result) => {
         if (error) {
-            throw error
             response.json({ message: "error in creating new Doctor" })
+            throw error
         }
         console.log(result)
         response.json({ data: result })
@@ -72,49 +73,56 @@ app.post("/doctors", (request, response) => {
     const createdAt = new Date().toISOString().slice(0, 19).replace('T', ' ');
     const modifiedAt = createdAt
     const doctorDb = { id, createdAt, modifiedAt, ...request.body }
-    
+
 
     const { firstName, lastName, email, contactNumber, qualification, profession, profilePicture, cases } = { ...request.body }
     // console.log(request.body)
     // console.log(doctorDb)
 
-    connection.query('insert into Doctor values(?,?,?,?,?,?,?,?,?,?,?)', [id, createdAt, modifiedAt,email, firstName, lastName, contactNumber, profession, qualification,cases, profilePicture],
+    connection.query('insert into Doctor values(?,?,?,?,?,?,?,?,?,?,?)', [id, createdAt, modifiedAt, email, firstName, lastName, contactNumber, profession, qualification, cases, profilePicture],
         (error, result) => {
             if (error) {
-                throw error
-                response.json({ message: "error in creating new Doctor" })
+                return connection.rollback(function () {
+                    response.json({ message: "error in creating new Doctor" })
+                    throw error
+                })
+               
             }
             //console.log(result)
             response.json({ data: doctorDb, message: "New doctor has been created" })
 
         })
-   //response.json({message: "received"})
+    //response.json({message: "received"})
 })
 
 
 //update info of existing doctor by id
-app.put("/doctors/:id", async (request,response)=>{
+app.put("/doctors/:id", async (request, response) => {
     const id = request.params.id
 
     const modifiedAt = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
     connection.query('select * from Doctor where Id = ?', [id], (error, result) => {
         if (error) {
-            throw error
-            response.json({message: "There was an error in fetching data from database"})
+            connection.rollback(function () {
+                response.json({ message: "There was an error in fetching data from database" })
+                throw error
+            })
         }
-        let doctorData = {...result[0], ...request.body}
+        let doctorData = { ...result[0], ...request.body }
         console.log(doctorData)
         const { firstName, lastName, email, contactNumber, qualification, profession, profilePicture, cases, createdAt } = { ...doctorData }
 
         connection.query(`update Doctor set firstName = ?, lastName = ?, email = ?, contactNumber = ?, qualification = ?, profession = ?, profilePicture = ?, cases=?, createdAt=?, modifiedAt=? where Id=?`,
-        [firstName, lastName, email, contactNumber, qualification, profession, profilePicture, cases, createdAt, modifiedAt, id], (error2, result2) => {
-            if (error2){
-                throw error2
-                response.json({message: "there was an error in updating the data"})
-            }
-            response.json({data: doctorData, message: "Details have been updated"})
-        })      
+            [firstName, lastName, email, contactNumber, qualification, profession, profilePicture, cases, createdAt, modifiedAt, id], (error2, result2) => {
+                if (error2) {
+                    return connection.rollback(function () {
+                        response.json({ message: "there was an error in updating the data" })
+                        throw error2
+                    })
+                }
+                response.json({ data: doctorData, message: "Details have been updated" })
+            })
     })
 })
 
@@ -124,8 +132,13 @@ app.put("/doctors/:id", async (request,response)=>{
 app.delete("/doctors/:id", (request, response) => {
     const Id = request.params.id
 
-    connection.query('delete from Doctor where Id = ?', [Id], (error, result) => {
-        if (error) throw error
+    connection.query('delete from Doctor where Id = ?', [Id], (error, results, fields) => {
+        if (error) {
+            return connection.rollback(function () {
+                response.json({ message: "there was an error in deleting the data. Server down or ID provided is incorrect" })
+                throw error
+            })
+        }
         console.log(result)
         response.json({ data: `Doctor with Id ${Id} has been deleted` })
     })
