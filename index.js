@@ -117,7 +117,7 @@ app.put("/doctors/:id", async (request, response) => {
             [firstName, lastName, email, contactNumber, qualification, profession, profilePicture, cases, createdAt, modifiedAt, id], (error2, result2) => {
                 if (error2) {
                     return connection.rollback(function () {
-                        response.status(400)send('there was an error in updating the data')
+                        response.status(400).send('there was an error in updating the data')
                         throw error2
                     })
                 }
