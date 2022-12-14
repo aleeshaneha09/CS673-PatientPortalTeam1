@@ -40,8 +40,7 @@ app.get("/", (request, response) => {
 app.get("/doctors", (request, response) => {
     connection.query("select * from Doctor", function (error, result, fields) {
         if (error) {
-            response.status(400)
-            response.send("Cannot get List of doctors")
+            response.status(400).send("Cannot get List of doctors")
             throw error
         }
         else {
@@ -58,8 +57,7 @@ app.get("/doctors/:id", (request, response) => {
     //console.log(id)
     connection.query(`select * from Doctor where Id = ?`, [id], (error, result) => {
         if (error) {
-            response.status(500)
-            response.send('Error in creating new Doctor')
+            response.status(500).send('Error in creating new Doctor')
             throw error
         }
         console.log(result)
@@ -85,8 +83,7 @@ app.post("/doctors", (request, response) => {
         (error, result) => {
             if (error) {
                 return connection.rollback(function () {
-                    response.status(400)
-                    response.send("error in creating new Doctor")
+                    response.status(400).send("error in creating new Doctor")
                     throw error
                 })
                
@@ -108,8 +105,7 @@ app.put("/doctors/:id", async (request, response) => {
     connection.query('select * from Doctor where Id = ?', [id], (error, result) => {
         if (error) {
             connection.rollback(function () {
-                response.status(400)
-                response.send('There was an error in fetching data from database')
+                response.status(400).send('There was an error in fetching data from database')
                 throw error
             })
         }
@@ -121,8 +117,7 @@ app.put("/doctors/:id", async (request, response) => {
             [firstName, lastName, email, contactNumber, qualification, profession, profilePicture, cases, createdAt, modifiedAt, id], (error2, result2) => {
                 if (error2) {
                     return connection.rollback(function () {
-                        response.status(400)
-                        response.send('there was an error in updating the data')
+                        response.status(400)send('there was an error in updating the data')
                         throw error2
                     })
                 }
@@ -140,8 +135,8 @@ app.delete("/doctors/:id", (request, response) => {
     connection.query('delete from Doctor where Id = ?', [Id], (error, results, fields) => {
         if (error) {
             return connection.rollback(function () {
-                response.status(400)
-                response.send('there was an error in deleting the data. Server down or ID provided is incorrect')
+                response.status(400).send('there was an error in deleting the data. Server down or ID provided is incorrect')
+                
                 throw error
             })
         }
