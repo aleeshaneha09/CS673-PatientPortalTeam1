@@ -60,7 +60,7 @@ app.get("/doctors/:id", (request, response) => {
             response.status(500).send('Error in creating new Doctor')
             throw error
         }
-        console.log(result)
+       // console.log(result)
         response.json({ data: result })
     })
 });
@@ -140,7 +140,7 @@ app.delete("/doctors/:id", (request, response) => {
                 throw error
             })
         }
-        console.log(result)
+       // console.log(result)
         response.json({ data: `Doctor with Id ${Id} has been deleted` })
     })
 
